@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ldu.dao.LoggerMapper">
+	<resultMap id="BaseResultMap" type="com.ldu.pojo.Logger">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="method" property="method" jdbcType="VARCHAR" />
+		<result column="url" property="url" jdbcType="VARCHAR" />
+	</resultMap>
+
+
+	<sql id="Base_Column_List">
+		id, method, url
+	</sql>
+
+
+	<insert id="insertSelective" parameterType="com.ldu.pojo.Logger"
+		useGeneratedKeys="true" keyProperty="id">
+
+		insert into logger
+		(method,url)
+		values (#{method,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR})
+
+	</insert>
+</mapper>

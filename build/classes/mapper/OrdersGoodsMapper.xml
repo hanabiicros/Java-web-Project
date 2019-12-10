@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ldu.dao.OrdersGoodsMapper">
+	<resultMap id="BaseResultMap" type="com.ldu.pojo.OrdersGoods">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="goods_id" property="goodsId" jdbcType="INTEGER" />
+		<result column="orders_id" property="ordersId" jdbcType="INTEGER" />
+
+	</resultMap>
+
+
+	<sql id="Base_Column_List">
+		id, goods_id, orders_id
+	</sql>
+
+
+	<insert id="addOrdersGoods" parameterType="com.ldu.pojo.OrdersGoods"
+		useGeneratedKeys="true" keyProperty="id">
+
+		insert into ordersgoods
+		(goods_id,orders_id)
+		values (#{goodsId,jdbcType=INTEGER}, #{ordersId,jdbcType=INTEGER})
+
+	</insert>
+
+	<select id="getOrdersGoodsByOrdersId" resultType="java.lang.Integer">
+		SELECT goods_id from ordersgoods WHERE ordersgoods.orders_id = #{ordersId,jdbcType=INTEGER};
+	</select>
+
+	<delete id="deleteByPrimaryKeys" parameterType="java.lang.Integer">
+		delete from ordersgoods where id = #{id,jdbcType=INTEGER}
+	</delete>
+</mapper>

@@ -1,0 +1,65 @@
+{
+  "id": "1467493",
+  "name": "school_goods",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "36020",
+      "name": "goods",
+      "font_class": "goods",
+      "unicode": "e6cd",
+      "unicode_decimal": 59085
+    },
+    {
+      "icon_id": "457370",
+      "name": "order",
+      "font_class": "emaxcitygerenxinxitubiaoji03",
+      "unicode": "e61e",
+      "unicode_decimal": 58910
+    },
+    {
+      "icon_id": "564379",
+      "name": "notice",
+      "font_class": "notice",
+      "unicode": "e63c",
+      "unicode_decimal": 58940
+    },
+    {
+      "icon_id": "1380729",
+      "name": "shopping_cart",
+      "font_class": "gouwuche",
+      "unicode": "e605",
+      "unicode_decimal": 58885
+    },
+    {
+      "icon_id": "1455661",
+      "name": "focus",
+      "font_class": "focus",
+      "unicode": "e625",
+      "unicode_decimal": 58917
+    },
+    {
+      "icon_id": "1469304",
+      "name": "setting",
+      "font_class": "setting",
+      "unicode": "e874",
+      "unicode_decimal": 59508
+    },
+    {
+      "icon_id": "5131724",
+      "name": "ic-published",
+      "font_class": "ic-published",
+      "unicode": "e628",
+      "unicode_decimal": 58920
+    },
+    {
+      "icon_id": "10043875",
+      "name": "Notice",
+      "font_class": "Notice",
+      "unicode": "e629",
+      "unicode_decimal": 58921
+    }
+  ]
+}

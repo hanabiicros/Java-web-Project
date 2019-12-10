@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ldu.dao.OrdersMapper">
+	<resultMap id="BaseResultMap" type="com.ldu.pojo.Orders">
+		<id column="ordersId" property="id" jdbcType="INTEGER" />
+		<result column="user_id" property="userId" jdbcType="INTEGER" />
+		<result column="goods_num" property="goodsNum" jdbcType="INTEGER" />
+		<result column="order_price" property="orderPrice" jdbcType="REAL" />
+		<result column="order_state" property="orderState" jdbcType="INTEGER" />
+		<result column="order_information" property="orderInformation"
+			jdbcType="VARCHAR" />
+		<result column="order_date" property="orderDate" jdbcType="VARCHAR" />
+		<collection property="goods" ofType="com.ldu.pojo.Goods">
+			<id property="id" column="goodsId" />
+			<result property="name" column="name" />
+			<result property="price" column="price" />
+		</collection>
+
+	</resultMap>
+
+
+	<sql id="Base_Column_List">
+		id, user_id, goods_num, order_price,
+		order_state,order_information,order_date
+	</sql>
+
+	<select id="selectOrdersByUserId" resultMap="BaseResultMap">
+		select
+		orders.id as 'ordersId',orders.user_id,orders.goods_num,orders.order_price,orders.order_state,orders.order_information,orders.order_date,goods.id as 'goodsId',goods.name,goods.price
+		from goods,orders,ordersgoods
+		where ordersgoods.orders_id = orders.id and goods.id=ordersgoods.goods_id and orders.user_id = #{user_id,jdbcType=INTEGER}
+	</select>
+
+	<select id="selectOrdersByUserAndGoods" resultMap="BaseResultMap">
+		SELECT orders.id as 'ordersId',orders.user_id,orders.goods_num,orders.order_price,orders.order_state,orders.order_information,orders.order_date,goods.id as 'goodsId',goods.name,goods.price FROM goods,orders,ordersgoods WHERE ordersgoods.orders_id = orders.id and goods.id=ordersgoods.goods_id and
+		ordersgoods.goods_id IN(SELECT id FROM goods WHERE user_id=
+		#{user_id,jdbcType=INTEGER});
+	</select>
+
+	<!-- 后台查询 -->
+	<select id="getOrdersList" resultMap="BaseResultMap"
+		parameterType="String">
+		select orders.id as 'ordersId',orders.user_id,orders.goods_num,orders.order_price,orders.order_state,orders.order_information,orders.order_date,goods.id as 'goodsId',goods.name,goods.price 
+		from goods,orders,ordersgoods
+		where ordersgoods.orders_id = orders.id and goods.id=ordersgoods.goods_id
+	</select>
+	<select id="selectById" resultMap="BaseResultMap">
+		select orders.id as 'ordersId',orders.user_id,orders.goods_num,orders.order_price,orders.order_state,orders.order_information,orders.order_date,goods.id as 'goodsId',goods.name,goods.price 
+		from goods,orders,ordersgoods
+		where orders.id=#{id,jdbcType=INTEGER} and ordersgoods.orders_id = orders.id and goods.id=ordersgoods.goods_id
+	</select>
+
+	<select id="getPageOrdersByOrders" resultMap="BaseResultMap">
+		select orders.id as 'ordersId',orders.user_id,orders.goods_num,orders.order_price,orders.order_state,orders.order_information,orders.order_date,goods.id as 'goodsId',goods.name,goods.price 
+		from goods,orders,ordersgoods
+		where ordersgoods.orders_id = orders.id and goods.id=ordersgoods.goods_id
+		<if test="orderInformation != '' and orderInformation != null">
+			AND order_information like concat('%',#{orderInformation},'%')
+		</if>
+		<if test="orderState != null">
+			AND order_state like concat('%',#{orderState},'%')
+		</if>
+	</select>
+
+	<insert id="addOrders" parameterType="com.ldu.pojo.Orders"
+		useGeneratedKeys="true" keyProperty="id">
+
+		insert into orders
+		(user_id,goods_num,order_price,order_information,order_date)
+		values (#{userId,jdbcType=INTEGER}, #{goodsNum,jdbcType=INTEGER},
+		#{orderPrice,jdbcType=REAL}, #{orderInformation,jdbcType=VARCHAR}, #{orderDate,jdbcType=VARCHAR})
+
+	</insert>
+
+	<update id="deliverByOrderNum">
+		UPDATE orders
+		<set>order_state=2</set>
+		WHERE orders.id = #{id,jdbcType=INTEGER};
+	</update>
+
+	<update id="receiptByOrderNum">
+		UPDATE orders
+		<set>order_state=3</set>
+		WHERE orders.id = #{id,jdbcType=INTEGER};
+	</update>
+
+	<update id="updateByPrimaryKey" parameterType="com.ldu.pojo.Orders">
+		UPDATE orders
+		<set>
+			<if test="userId != null">
+				user_id = #{userId,jdbcType=INTEGER},
+			</if>
+			<if test="goodsId != null">
+				goods_id = #{goodsId,jdbcType=INTEGER},
+			</if>
+			<if test="orderNum != null">
+				order_num = #{orderNum,jdbcType=INTEGER},
+			</if>
+			<if test="orderPrice != null">
+				order_price = #{orderPrice,jdbcType=REAL},
+			</if>
+			<if test="orderInformation != null">
+				order_information = #{orderInformation,jdbcType=VARCHAR},
+			</if>
+			<if test="orderState != null">
+				order_state = #{orderState,jdbcType=VARCHAR},
+			</if>
+			<if test="orderDate != null">
+				order_date = #{orderDate,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+
+	<delete id="deleteByPrimaryKeys" parameterType="java.lang.Integer">
+		delete from orders where id = #{id,jdbcType=INTEGER}
+	</delete>
+</mapper>
